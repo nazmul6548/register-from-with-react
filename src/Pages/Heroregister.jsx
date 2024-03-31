@@ -1,12 +1,15 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { useState } from "react";
-
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 
 export const Heroregister = () => {
 
     const [registererror,setRegistererror] = useState("");
     const [success,setSuccess] = useState("")
+    const [showpassword,setShowpassword] = useState(false)
+   
 
 
 
@@ -15,13 +18,17 @@ const handleregisternow = e => {
 
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email,password);
+    const accepted = e.target.terms.checked;
+    console.log(email,password,accepted);
 
     if (password.length < 6) {
         setRegistererror("Password should be at least 6 characters")
         return
     }else if (!/[A-Z]/.test(password)) {
         setRegistererror("your password must be have at least one character upper case")
+        return
+    }else if (!accepted) {
+        setRegistererror("please accept our term and condition")
         return
     }
     setRegistererror("")
@@ -61,10 +68,25 @@ const handleregisternow = e => {
           <label className="label">
             <span className="label-text">Password</span>
           </label>
-          <input type="password" name="password" placeholder="password" className="input input-bordered" required />
+          <div className="relative">
+          <input type={
+            showpassword ? "text" : "password"
+          } name="password" placeholder="password" className="input w-full input-bordered" required /> 
+          <span className="absolute right-1 top-4" onClick={() => setShowpassword(!showpassword)}>
+            {
+                showpassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />
+            }
+
+          </span>
+          </div>
           <label className="label">
             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
           </label>
+
+         <div className="flex items-center">
+         <input type="checkbox" name="" id="terms" />
+          <label className="ml-1" htmlFor="">accept our <a className="underline" href="#">term and condition</a></label>
+         </div>
         </div>
         <div className="form-control mt-6">
           <button className="btn btn-primary">Login</button>
