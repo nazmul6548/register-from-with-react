@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import { useState } from "react";
 import { BsEyeSlashFill } from "react-icons/bs";
@@ -12,11 +12,11 @@ function Register() {
 
   const registerhandler = (e) => {
     e.preventDefault();
-
+    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     const accepted = e.target.terms.checked;
-    console.log(email, password,accepted);
+    console.log(name,email, password,accepted);
 
     if (password.length < 6) {
       setRegistererror("password must be at least 6 characters or more");
@@ -36,8 +36,27 @@ function Register() {
       .then((result) => {
         console.log(result.user);
         setSuccess("you have successfully registered");
+
+        updateProfile(result.user,{
+          displayName:name,
+          photoURL: "https://example.com/jane-q-user/profile.jpg"
+        })
+        .then(() =>console.log("profile updated successfully"))
+        .catch()
+
+
+
+
+
+        sendEmailVerification(result.user)
+        .then(() => {
+  alert("please check your email and verify your account")
+        })
       })
-      .catch((error) => {
+
+
+
+       .catch((error) => {
         // console.error(error.message);
         setRegistererror(error.message);
       });
@@ -46,6 +65,16 @@ function Register() {
     <div className=" mt-12 w-1/2 mx-auto">
       <h1 className="text-4xl text-center font-bold">Registration Now</h1>
       <form onSubmit={registerhandler} className="1/2 mx-auto mt-12">
+        <input
+          className="border-2 p-3 rounded-md  w-full"
+          type="text"
+          name="name"
+          placeholder="type your name"
+          required
+        />
+
+        <br />
+        <br />
         <input
           className="border-2 p-3 rounded-md  w-full"
           type="email"
@@ -86,7 +115,7 @@ function Register() {
         />
         
       </form>
-      <p>Are you registered? Go to <NavLink to="/contact">login</NavLink></p>
+      <p>Already have an account? Go to <NavLink className="underline" to="/contact">login</NavLink></p>
 
 
       {registererror && (
