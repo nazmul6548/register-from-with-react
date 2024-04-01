@@ -10,7 +10,8 @@ import { Root } from './components/Root';
 import Home from './Pages/Home';
 import Contact from './Pages/Contact';
 import Register from './components/Register';
-import { Heroregister } from './Pages/Heroregister';
+import Heroregister from './Pages/Heroregister';
+
 
 
 const router = createBrowserRouter([

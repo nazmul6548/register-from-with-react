@@ -1,44 +1,21 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../firebase/firebase.config";
-
 
 function Register() {
-
-
-  const handleRegister =e => {
-  e.preventDefault();
-  
-  const email = e.target.email.value;
-  const password =e.target.password.value;
-  console.log(email,password);
-  createUserWithEmailAndPassword(auth,email,password)
-  .then(result => {
-
-   console.log(result.user);
-  })
-  .catch(error => {
-    console.error(error);
-  })
-  }
-
-
   return (
-    <div className="mt-10">
-        <h2 className='text-5xl font-bold text-center'>Please Register</h2>
+    <div className=" mt-12 w-1/2 mx-auto">
+      <h1 className="text-4xl text-center font-bold">Registration Now</h1>
+      <form className="1/2 mx-auto mt-12">
 
-        <div className="mx-auto w-1/2">
-            <form onSubmit={handleRegister} className="flex flex-col mt-10">
+         <input className="border-2 p-3 rounded-md  w-full" type="email" name="email" placeholder="type your email" />
 
-                <input type="email" name="email" id="" className="border-2 p-2 px-7 rounded-xl w-3/4 m-auto "  placeholder="provide your email"/>
-                <br />
-                <br />
-                <input type="password" name="password" id="" className="border-2 rounded-xl m-auto w-3/4 p-2 px-7"  placeholder="type your password"/>
-                <br />
-                <br />
-                <input type="submit"  name="submit" className="border-2 bg-secondary w-3/4 p-2 px-7 rounded-xl m-auto"/>
-                
-            </form>
-        </div>
+         <br />
+         <br />
+
+         <input className="border-2 p-3 rounded-md w-full" type="password" name="password" placeholder="type your password" />
+         <br />
+         <br />
+         <input className="bg-secondary w-full p-3 text-white font-bold rounded-md border-2" type="submit" value="register"  />
+
+      </form>
     </div>
   )
 }
